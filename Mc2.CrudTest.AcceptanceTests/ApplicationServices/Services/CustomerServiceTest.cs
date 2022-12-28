@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Mc2.CrudTest.ApplicationServices;
@@ -11,6 +12,7 @@ using Xunit;
 
 namespace Mc2.CrudTest.AcceptanceTests.ApplicationServices.Services
 {
+    [ExcludeFromCodeCoverage]
     public class CustomerServiceTest
     {
         private readonly CustomerService _service;
@@ -101,6 +103,26 @@ namespace Mc2.CrudTest.AcceptanceTests.ApplicationServices.Services
 
             // Assert
             result.Should().BeOfType(typeof(int));
+        }
+
+        [Fact]
+        public async Task IsSameCustomerExistAsync_WhenCall_ReturnsBool()
+        {
+            // Act
+            bool result = await _service.IsSameCustomerExistAsync("a", "b", DateTime.Now);
+
+            // Assert
+            Assert.IsType<bool>(result);
+        }
+
+        [Fact]
+        public async Task IsEmailExistAsync_WhenCall_ReturnsBool()
+        {
+            // Act
+            bool result = await _service.IsEmailExistAsync("a@a.com");
+
+            // Assert
+            Assert.IsType<bool>(result);
         }
     }
 }

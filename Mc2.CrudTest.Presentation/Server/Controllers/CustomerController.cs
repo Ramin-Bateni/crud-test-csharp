@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Mc2.CrudTest.ApplicationServices.Models;
 using Mc2.CrudTest.Domain.Customers.Commands;
 using Mc2.CrudTest.Domain.Customers.Queries;
+using Mc2.CrudTest.Shared.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -38,8 +39,47 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<Customer> CreateCustomer(Customer customer)
+        public async Task<ActionResult> CreateCustomer(Customer customer)
         {
+            if (!Validator.PhoneIsValid(customer.PhoneNumber))
+            {
+                return BadRequest("PhoneNumber is invalid!");
+            }
+
+            if (!Validator.EmailIsValid(customer.Email))
+            {
+                return BadRequest("Email is invalid!");
+            }
+
+            if (!Validator.BankAccountIsValid(customer.BankAccountNumber))
+            {
+                return BadRequest("Bank account is invalid!");
+            }
+
+            // Check same user is exist or not
+            bool isExist = await _mediator.Send(new IsSameCustomerExistQuery()
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.Lastname,
+                DateOfBirth = customer.DateOfBirth
+            });
+            if (isExist)
+            {
+                return BadRequest("Same customer is exist!");
+            }
+            //--------------------------------
+
+            // Check is email exist or not
+            bool isEmailExist = await _mediator.Send(new IsEmailExistQuery()
+            {
+                Email = customer.Email
+            });
+            if (isEmailExist)
+            {
+                return BadRequest("Same email is exist!");
+            }
+            //--------------------------------
+
             customer = await _mediator.Send(new CreateCustomerCommand()
             {
                 FirstName = customer.FirstName,
@@ -49,15 +89,54 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
                 PhoneNumber = customer.PhoneNumber,
                 BankAccountNumber = customer.BankAccountNumber
             });
-            return customer;
+            return Ok(customer);
         }
 
         [HttpPut]
-        public async Task<int> UpdateCustomer(Customer customer)
+        public async Task<ActionResult> UpdateCustomer(Customer customer)
         {
+            if (!Validator.PhoneIsValid(customer.PhoneNumber))
+            {
+                return BadRequest("PhoneNumber is invalid!");
+            }
+
+            if (!Validator.EmailIsValid(customer.Email))
+            {
+                return BadRequest("Email is invalid!");
+            }
+
+            if (!Validator.BankAccountIsValid(customer.BankAccountNumber))
+            {
+                return BadRequest("Bank account is invalid!");
+            }
+
+            // check same user is exist or not
+            bool isExist = await _mediator.Send(new IsSameCustomerExistQuery()
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.Lastname,
+                DateOfBirth = customer.DateOfBirth
+            });
+            if (isExist)
+            {
+                return BadRequest("Same customer is exist!");
+            }
+            //--------------------------------
+
+            // Check is email exist or not
+            bool isEmailExist = await _mediator.Send(new IsEmailExistQuery()
+            {
+                Email = customer.Email
+            });
+            if (isEmailExist)
+            {
+                return BadRequest("Same email is exist!");
+            }
+            //--------------------------------
+
             int id = await _mediator.Send(new UpdateCustomerCommand()
             {
-                Id=customer.Id,
+                Id = customer.Id,
                 FirstName = customer.FirstName,
                 Lastname = customer.Lastname,
                 Email = customer.Email,
@@ -65,7 +144,7 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
                 PhoneNumber = customer.PhoneNumber,
                 BankAccountNumber = customer.BankAccountNumber
             });
-            return id;
+            return Ok(id);
         }
 
         [HttpDelete]

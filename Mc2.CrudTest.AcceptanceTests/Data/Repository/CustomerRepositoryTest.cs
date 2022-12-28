@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.NSubstitute;
 using NSubstitute;
 using Xunit;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
 {
+    [ExcludeFromCodeCoverage]
     public class CustomerRepositoryTest
     {
         private readonly ICustomerRepository _repo;
@@ -116,6 +119,26 @@ namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
 
             // Assert
             result.Should().BeOfType(typeof(int));
+        }
+
+        [Fact]
+        public async Task IsSameCustomerExistAsync_WhenCall_ReturnsBool()
+        {
+            // Act
+            bool result = await _repo.IsSameCustomerExistAsync("a","b",DateTime.Now);
+
+            // Assert
+            Assert.IsInstanceOfType(result,typeof(bool));
+        }
+
+        [Fact]
+        public async Task IsEmailExistAsync_WhenCall_ReturnsBool()
+        {
+            // Act
+            bool result = await _repo.IsEmailExistAsync("a@a.com");
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(bool));
         }
     }
 }

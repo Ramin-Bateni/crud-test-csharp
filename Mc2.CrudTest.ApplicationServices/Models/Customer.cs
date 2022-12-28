@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Mc2.CrudTest.ApplicationServices.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Customer
     {
         public int Id { get; set; }

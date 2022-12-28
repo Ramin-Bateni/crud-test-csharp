@@ -1,15 +1,17 @@
-﻿using System.Threading;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
-using Mc2.CrudTest.ApplicationServices.Models;
 using Mc2.CrudTest.ApplicationServices.Services;
 using MediatR;
 
 namespace Mc2.CrudTest.Domain.Customers.Commands
 {
+    [ExcludeFromCodeCoverage]
     public class DeleteCustomerCommand : IRequest<int>
     {
         public int Id { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, int>
         {
             private readonly ICustomerService _customerService;

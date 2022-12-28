@@ -45,5 +45,15 @@ namespace Mc2.CrudTest.ApplicationServices.Services
         {
             return await _repo.DeleteCustomerAsync(customerId);
         }
+
+        public Task<bool> IsSameCustomerExistAsync(string firstName, string lastName, DateTime dateOfBirth)
+        {
+            return _repo.IsSameCustomerExistAsync(firstName, lastName, dateOfBirth);
+        }
+
+        public Task<bool> IsEmailExistAsync(string email)
+        {
+            return _repo.IsEmailExistAsync(email);
+        }
     }
 }

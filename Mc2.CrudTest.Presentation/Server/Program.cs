@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Mc2.CrudTest.Presentation.Server
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)

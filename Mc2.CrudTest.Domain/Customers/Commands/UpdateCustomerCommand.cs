@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Mc2.CrudTest.ApplicationServices.Models;
@@ -7,6 +8,7 @@ using MediatR;
 
 namespace Mc2.CrudTest.Domain.Customers.Commands
 {
+    [ExcludeFromCodeCoverage]
     public class UpdateCustomerCommand : IRequest<int>
     {
         public int Id { get; set; }
@@ -17,6 +19,7 @@ namespace Mc2.CrudTest.Domain.Customers.Commands
         public string Email { get; set; }
         public string BankAccountNumber { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, int>
         {
             private readonly ICustomerService _customerService;

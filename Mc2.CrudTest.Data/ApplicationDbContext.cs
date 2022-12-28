@@ -1,5 +1,4 @@
-﻿using System;
-using Mc2.CrudTest.ApplicationServices.Models;
+﻿using Mc2.CrudTest.ApplicationServices.Models;
 using Mc2.CrudTest.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 

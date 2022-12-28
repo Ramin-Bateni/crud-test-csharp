@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Mc2.CrudTest.ApplicationServices.Models;
@@ -7,6 +8,7 @@ using MediatR;
 
 namespace Mc2.CrudTest.Domain.Customers.Queries
 {
+    [ExcludeFromCodeCoverage]
     public class GetAllCustomersQuery : IRequest<IEnumerable<Customer>>
     {
         public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery, IEnumerable<Customer>>

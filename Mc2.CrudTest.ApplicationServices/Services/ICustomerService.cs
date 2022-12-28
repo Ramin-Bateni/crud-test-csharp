@@ -14,5 +14,7 @@ namespace Mc2.CrudTest.ApplicationServices.Services
         Task<Customer> CreateCustomerAsync(Customer customer);
         Task<int> UpdateCustomerAsync(Customer customer);
         Task<int> DeleteCustomerAsync(int customerId);
+        Task<bool> IsSameCustomerExistAsync(string firstName, string lastName, DateTime dateOfBirth);
+        Task<bool> IsEmailExistAsync(string email);
     }
 }

@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Customers\Commands\" />
-    <Folder Include="Customers\Queries\" />
   </ItemGroup>
 
   

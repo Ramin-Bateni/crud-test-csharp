@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Mc2.CrudTest.ApplicationServices;
 using Mc2.CrudTest.ApplicationServices.IRepositories;
 using Mc2.CrudTest.ApplicationServices.Services;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Mc2.CrudTest.Presentation.Server
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
