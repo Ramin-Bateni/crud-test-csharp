@@ -1,6 +1,8 @@
 # CRUD Code Test 
 ![image](https://user-images.githubusercontent.com/9051320/209865646-0b077402-f5a7-4365-836a-cd5b4be337d4.png)
-![image](https://user-images.githubusercontent.com/9051320/209865784-28ea2f14-1a24-45db-954c-8fd161475452.png)
+![image](https://user-images.githubusercontent.com/9051320/209881624-a1aaa12c-e3c4-48a5-9582-e156fc006808.png)
+![image](https://user-images.githubusercontent.com/9051320/209881658-42eb8d19-2b89-49ba-b280-0d717086b157.png)
+
 
 -----------------------------------
 Please read each note very carefully!
