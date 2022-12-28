@@ -1,7 +1,22 @@
 # CRUD Code Test 
+
+# Swagger
 ![image](https://user-images.githubusercontent.com/9051320/209865646-0b077402-f5a7-4365-836a-cd5b4be337d4.png)
-![image](https://user-images.githubusercontent.com/9051320/209881624-a1aaa12c-e3c4-48a5-9582-e156fc006808.png)
+------------------------
+# Code coverage
 ![image](https://user-images.githubusercontent.com/9051320/209881658-42eb8d19-2b89-49ba-b280-0d717086b157.png)
+------------------------
+# DB
+For migration:
+Run bellow command in Data projects:
+```
+dotnet ef database update --startup-project ../Mc2.CrudTest.Presentation/Server
+```
+![image](https://user-images.githubusercontent.com/9051320/209883097-5e200730-f20f-48fa-ac0e-45fac7a8b0b3.png)
+------------------------
+# Solution
+![image](https://user-images.githubusercontent.com/9051320/209881624-a1aaa12c-e3c4-48a5-9582-e156fc006808.png)
+
 
 
 -----------------------------------
