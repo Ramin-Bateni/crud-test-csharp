@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
@@ -14,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Mc2.CrudTest.ApplicationServices\Mc2.CrudTest.ApplicationServices.csproj" />
     <ProjectReference Include="..\..\Mc2.CrudTest.Data\Mc2.CrudTest.Data.csproj" />
+    <ProjectReference Include="..\..\Mc2.CrudTest.Domain\Mc2.CrudTest.Domain.csproj" />
     <ProjectReference Include="..\Shared\Mc2.CrudTest.Shared.csproj" />
   </ItemGroup>
 

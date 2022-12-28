@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Mc2.CrudTest.ApplicationServices.IRepositories;
 using Mc2.CrudTest.ApplicationServices.Models;
 using Mc2.CrudTest.Data;
 using Mc2.CrudTest.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.NSubstitute;
 using NSubstitute;
 using Xunit;
 
@@ -11,21 +16,37 @@ namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
 {
     public class CustomerRepositoryTest
     {
-        private readonly CustomerRepository _repo;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ICustomerRepository _repo;
+        private readonly ApplicationDbContext dbContext;
 
         public CustomerRepositoryTest()
         {
-            _dbContext = Substitute.For<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
+            dbContext = Substitute.For<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
 
-            _repo = new CustomerRepository(_dbContext);
+            DbSet<Customer> customerDbSet = new List<Customer>()
+            {
+                new()
+                {
+                    Id = 1,
+                    FirstName = "Ramin",
+                    Lastname = "Bateni",
+                    Email = "a@a.com",
+                    DateOfBirth = DateTime.Now,
+                    PhoneNumber = "09130000000",
+                    BankAccountNumber = "987654"
+                }
+            }.AsQueryable().BuildMockDbSet();
+            
+            dbContext.Customer=customerDbSet;
+
+            _repo = new CustomerRepository(dbContext);
         }
 
         [Fact]
-        public async Task GetAllCustomersAsync_WhenCall_ReturnsIEnumerableOfCustomers()
+        public async Task GetCustomersListAsync_WhenCall_ReturnsIEnumerableOfCustomers()
         {
             // Act
-            var result = await _repo.GetAllCustomersAsync();
+            var result = await _repo.GetCustomersListAsync();
 
             // Assert
             result.Should().BeAssignableTo<IEnumerable<Customer>>();
@@ -34,15 +55,67 @@ namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
         [Fact]
         public async Task GetCustomerByIdAsync_WhenCall_ReturnsCustomer()
         {
-            // Assign
-            Customer customer = new();
-            _repo.GetCustomerByIdAsync(1).Returns(customer);
-
             // Act
-            var result = await _repo.GetCustomerByIdAsync(1);
+            Customer result = await _repo.GetCustomerByIdAsync(1);
+
+            // Assert
+            result.Should().BeOfType<Customer>();
+        }
+
+        [Fact]
+        public async Task CreateCustomerAsync_WhenCall_ReturnsCustomer()
+        {
+            // Arrange
+            DateTime dateOfBirth = DateTime.Today.AddYears(-20);
+            Customer customer = new()
+            {
+                Id = 0,
+                FirstName = "Ramin",
+                Lastname = "Bateni",
+                DateOfBirth = dateOfBirth,
+                Email = "a@a.com",
+                PhoneNumber = "+989130000000",
+                BankAccountNumber = "987654"
+            };
+            
+            // Act
+            Customer result = await _repo.CreateCustomerAsync(customer);
 
             // Assert
             result.Should().Be(customer);
+        }
+
+        [Fact]
+        public async Task UpdateCustomerAsync_WhenCall_ReturnsId()
+        {
+            // Arrange
+            DateTime dateOfBirth = DateTime.Today.AddYears(-20);
+            Customer customer = new()
+            {
+                Id = 1,
+                FirstName = "Ramin",
+                Lastname = "Bateni",
+                DateOfBirth = dateOfBirth,
+                Email = "a@a.com",
+                PhoneNumber = "+989130000000",
+                BankAccountNumber = "987654"
+            };
+
+            // Act
+            int result = await _repo.UpdateCustomerAsync(customer);
+
+            // Assert
+            result.Should().BeOfType(typeof(int));
+        }
+
+        [Fact]
+        public async Task DeleteCustomerAsync_WhenCall_ReturnsId()
+        {
+            // Act
+            int result = await _repo.DeleteCustomerAsync(1);
+
+            // Assert
+            result.Should().BeOfType(typeof(int));
         }
     }
 }

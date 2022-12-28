@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Mc2.CrudTest.ApplicationServices;
 using Mc2.CrudTest.ApplicationServices.IRepositories;
 using Mc2.CrudTest.ApplicationServices.Models;
@@ -11,23 +13,21 @@ namespace Mc2.CrudTest.AcceptanceTests.ApplicationServices.Services
 {
     public class CustomerServiceTest
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ICustomerRepository _repository;
         private readonly CustomerService _service;
 
         public CustomerServiceTest()
         {
-            _unitOfWork = Substitute.For<IUnitOfWork>();
-            _repository = Substitute.For<ICustomerRepository>();
+            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
+            ICustomerRepository repository = Substitute.For<ICustomerRepository>();
 
-            _service = new CustomerService(_unitOfWork, _repository);
+            _service = new CustomerService(unitOfWork, repository);
         }
 
         [Fact]
-        public async Task GetAllCustomersAsync_WhenCall_ReturnsIEnumerableOfCustomers()
+        public async Task GetCustomersListAsync_WhenCall_ReturnsIEnumerableOfCustomers()
         {
             // Act
-            var result = await _service.GetAllCustomersAsync();
+            var result = await _service.GetCustomersListAsync();
 
             // Assert
             result.Should().BeAssignableTo<IEnumerable<Customer>>();
@@ -45,6 +45,62 @@ namespace Mc2.CrudTest.AcceptanceTests.ApplicationServices.Services
 
             // Assert
             result.Should().Be(customer);
+        }
+
+        [Fact]
+        public async Task CreateCustomerAsync_WhenCall_ReturnsCustomer()
+        {
+            // Arrange
+            DateTime dateOfBirth = DateTime.Today.AddYears(-20);
+            Customer customer = new()
+            {
+                Id = 0,
+                FirstName = "Ramin",
+                Lastname = "Bateni",
+                DateOfBirth = dateOfBirth,
+                Email = "a@a.com",
+                PhoneNumber = "+989130000000",
+                BankAccountNumber = "987654"
+            };
+
+            // Act
+            Customer result = await _service.CreateCustomerAsync(customer);
+
+            // Assert
+            result.Should().Be(customer);
+        }
+
+        [Fact]
+        public async Task UpdateCustomerAsync_WhenCall_ReturnsId()
+        {
+            // Arrange
+            DateTime dateOfBirth = DateTime.Today.AddYears(-20);
+            Customer customer = new()
+            {
+                Id = 1,
+                FirstName = "Ramin",
+                Lastname = "Bateni",
+                DateOfBirth = dateOfBirth,
+                Email = "a@a.com",
+                PhoneNumber = "+989130000000",
+                BankAccountNumber = "987654"
+            };
+
+            // Act
+            int result = await _service.UpdateCustomerAsync(customer);
+
+            // Assert
+            result.Should().BeOfType(typeof(int));
+        }
+
+        [Fact]
+        public async Task DeleteCustomerAsync_WhenCall_ReturnsId()
+        {
+            // Act
+            int result = await _service.DeleteCustomerAsync(1);
+
+            // Assert
+            result.Should().BeOfType(typeof(int));
         }
     }
 }

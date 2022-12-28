@@ -1,5 +1,10 @@
 using Mc2.CrudTest.ApplicationServices;
+using Mc2.CrudTest.ApplicationServices.IRepositories;
+using Mc2.CrudTest.ApplicationServices.Services;
 using Mc2.CrudTest.Data;
+using Mc2.CrudTest.Data.Repositories;
+using Mc2.CrudTest.Domain.Customers.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,8 +35,11 @@ namespace Mc2.CrudTest.Presentation.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddMediatR(typeof(GetAllCustomersQuery).Assembly);
             services.AddSwaggerGen();
         }
 
