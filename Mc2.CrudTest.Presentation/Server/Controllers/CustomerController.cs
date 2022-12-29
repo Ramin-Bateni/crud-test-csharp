@@ -57,24 +57,24 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
             }
 
             // Check same user is exist or not
-            bool isExist = await _mediator.Send(new IsSameCustomerExistQuery()
+            int customerId = await _mediator.Send(new GetCustomerIdByInfoQuery()
             {
                 FirstName = customer.FirstName,
                 LastName = customer.Lastname,
                 DateOfBirth = customer.DateOfBirth
             });
-            if (isExist)
+            if (customerId!=0)
             {
                 return BadRequest("Same customer is exist!");
             }
             //--------------------------------
 
             // Check is email exist or not
-            bool isEmailExist = await _mediator.Send(new IsEmailExistQuery()
+            customerId = await _mediator.Send(new GetCustomerIdByEmailQuery()
             {
                 Email = customer.Email
             });
-            if (isEmailExist)
+            if (customerId != 0)
             {
                 return BadRequest("Same email is exist!");
             }
@@ -110,25 +110,27 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
                 return BadRequest("Bank account is invalid!");
             }
 
-            // check same user is exist or not
-            bool isExist = await _mediator.Send(new IsSameCustomerExistQuery()
+            //------ Check same user is exist or not
+            int customerId = await _mediator.Send(new GetCustomerIdByInfoQuery()
             {
                 FirstName = customer.FirstName,
                 LastName = customer.Lastname,
                 DateOfBirth = customer.DateOfBirth
             });
-            if (isExist)
+            // If there is another person with same info
+            if (customerId != 0 && customerId != customer.Id)
             {
                 return BadRequest("Same customer is exist!");
             }
             //--------------------------------
 
-            // Check is email exist or not
-            bool isEmailExist = await _mediator.Send(new IsEmailExistQuery()
+            //------ Check is email exist or not
+            customerId = await _mediator.Send(new GetCustomerIdByEmailQuery()
             {
                 Email = customer.Email
             });
-            if (isEmailExist)
+            // If there is another person with same email
+            if (customerId != 0 && customerId != customer.Id)
             {
                 return BadRequest("Same email is exist!");
             }

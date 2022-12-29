@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mc2.CrudTest.Data.Repositories
 {
-    public class CustomerRepository:ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace Mc2.CrudTest.Data.Repositories
 
         public async Task<IEnumerable<Customer>> GetCustomersListAsync()
         {
-            var items= await _context.Customer.ToListAsync();
+            var items = await _context.Customer.ToListAsync();
             return items;
         }
 
@@ -50,20 +50,25 @@ namespace Mc2.CrudTest.Data.Repositories
             {
                 return default;
             }
+
             _context.Customer.Remove(customer);
             return await _context.SaveChangesAsync();
         }
 
-        public Task<bool> IsSameCustomerExistAsync(string firstName, string lastName, DateTime dateOfBirth)
+        public async Task<int> GetCustomerIdOfCustomerAsync(string firstName, string lastName, DateTime dateOfBirth)
         {
-            return _context.Customer.AnyAsync(x => x.FirstName.ToLower() == firstName.ToLower() &&
-                                         x.Lastname.ToLower() == lastName.ToLower() &&
-                                         x.DateOfBirth == dateOfBirth);
+            Customer customer = await _context.Customer.FirstOrDefaultAsync(x =>
+                x.FirstName.ToLower() == firstName.ToLower() &&
+                x.Lastname.ToLower() == lastName.ToLower() &&
+                x.DateOfBirth == dateOfBirth);
+            return customer?.Id ?? 0;
         }
 
-        public Task<bool> IsEmailExistAsync(string email)
+        public async Task<int> GetCustomerIdByEmailAsync(string email)
         {
-            return _context.Customer.AnyAsync(x => x.Email.ToLower() == email.ToLower());
+            Customer customer = await _context.Customer
+                .FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
+            return customer?.Id ?? 0;
         }
     }
 }

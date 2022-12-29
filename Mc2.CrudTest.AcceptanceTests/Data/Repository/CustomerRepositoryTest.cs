@@ -122,23 +122,23 @@ namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
         }
 
         [Fact]
-        public async Task IsSameCustomerExistAsync_WhenCall_ReturnsBool()
+        public async Task IsSameCustomerExistAsync_WhenCall_ReturnsCustomerId()
         {
             // Act
-            bool result = await _repo.IsSameCustomerExistAsync("a","b",DateTime.Now);
+            int result = await _repo.GetCustomerIdOfCustomerAsync("a","b",DateTime.Now);
 
             // Assert
-            Assert.IsInstanceOfType(result,typeof(bool));
+            Assert.IsInstanceOfType(result,typeof(int));
         }
 
         [Fact]
-        public async Task IsEmailExistAsync_WhenCall_ReturnsBool()
+        public async Task IsEmailExistAsync_WhenCall_ReturnsCustomerId()
         {
             // Act
-            bool result = await _repo.IsEmailExistAsync("a@a.com");
+            int result = await _repo.GetCustomerIdByEmailAsync("a@a.com");
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(bool));
+            Assert.IsInstanceOfType(result, typeof(int));
         }
     }
 }

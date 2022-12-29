@@ -8,24 +8,24 @@ using MediatR;
 namespace Mc2.CrudTest.Domain.Customers.Queries
 {
     [ExcludeFromCodeCoverage]
-    public class IsSameCustomerExistQuery : IRequest<Boolean>
+    public class GetCustomerIdByInfoQuery : IRequest<int>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
 
-        public class IsSameCustomerExistQueryHandler : IRequestHandler<IsSameCustomerExistQuery, Boolean>
+        public class GetCustomerIdByInfoQueryHandler : IRequestHandler<GetCustomerIdByInfoQuery, int>
         {
             private readonly ICustomerService _customerService;
 
-            public IsSameCustomerExistQueryHandler(ICustomerService customerService)
+            public GetCustomerIdByInfoQueryHandler(ICustomerService customerService)
             {
                 _customerService = customerService;
             }
 
-            public async Task<bool> Handle(IsSameCustomerExistQuery query, CancellationToken cancellationToken)
+            public async Task<int> Handle(GetCustomerIdByInfoQuery query, CancellationToken cancellationToken)
             {
-                return await _customerService.IsSameCustomerExistAsync(
+                return await _customerService.GetCustomerIdOfCustomerAsync(
                     query.FirstName,
                     query.LastName,
                     query.DateOfBirth);

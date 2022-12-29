@@ -7,22 +7,22 @@ using MediatR;
 namespace Mc2.CrudTest.Domain.Customers.Queries
 {
     [ExcludeFromCodeCoverage]
-    public class IsEmailExistQuery : IRequest<bool>
+    public class GetCustomerIdByEmailQuery : IRequest<int>
     {
         public string Email { get; set; }
 
-        public class IsEmailExistQueryHandler : IRequestHandler<IsEmailExistQuery, bool>
+        public class GetCustomerIdByEmailQueryHandler : IRequestHandler<GetCustomerIdByEmailQuery, int>
         {
             private readonly ICustomerService _customerService;
 
-            public IsEmailExistQueryHandler(ICustomerService customerService)
+            public GetCustomerIdByEmailQueryHandler(ICustomerService customerService)
             {
                 _customerService = customerService;
             }
 
-            public async Task<bool> Handle(IsEmailExistQuery query, CancellationToken cancellationToken)
+            public async Task<int> Handle(GetCustomerIdByEmailQuery query, CancellationToken cancellationToken)
             {
-                return await _customerService.IsEmailExistAsync(query.Email);
+                return await _customerService.GetCustomerIdByEmailAsync(query.Email);
             }
         }
     }

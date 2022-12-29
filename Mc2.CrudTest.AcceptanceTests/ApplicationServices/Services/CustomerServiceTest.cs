@@ -106,23 +106,23 @@ namespace Mc2.CrudTest.AcceptanceTests.ApplicationServices.Services
         }
 
         [Fact]
-        public async Task IsSameCustomerExistAsync_WhenCall_ReturnsBool()
+        public async Task IsSameCustomerExistAsync_WhenCall_ReturnsCustomerId()
         {
             // Act
-            bool result = await _service.IsSameCustomerExistAsync("a", "b", DateTime.Now);
+            int result = await _service.GetCustomerIdOfCustomerAsync("a", "b", DateTime.Now);
 
             // Assert
-            Assert.IsType<bool>(result);
+            Assert.IsType<int>(result);
         }
 
         [Fact]
-        public async Task IsEmailExistAsync_WhenCall_ReturnsBool()
+        public async Task IsEmailExistAsync_WhenCall_ReturnsCustomerId()
         {
             // Act
-            bool result = await _service.IsEmailExistAsync("a@a.com");
+            int result = await _service.GetCustomerIdByEmailAsync("a@a.com");
 
             // Assert
-            Assert.IsType<bool>(result);
+            Assert.IsType<int>(result);
         }
     }
 }

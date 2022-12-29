@@ -69,8 +69,8 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         public async Task CreateCustomer_WhenCustomerIsValid_ReturnsOkObjectResult()
         {
             // Arrange
-            _mediator.Send(new IsSameCustomerExistQuery()).ReturnsForAnyArgs(false);
-            _mediator.Send(new IsEmailExistQuery()).ReturnsForAnyArgs(false);
+            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
+            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(0);
             _mediator.Send(new CreateCustomerCommand()).ReturnsForAnyArgs(_customer);
 
             // Act
@@ -134,7 +134,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             // Arrange
             CreateCustomerCommand createCustomerCommand = new();
 
-            _mediator.Send(new IsSameCustomerExistQuery()).ReturnsForAnyArgs(true);
+            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(10);
             _mediator.Send(createCustomerCommand).ReturnsForAnyArgs(_customer);
 
             // Act
@@ -150,8 +150,8 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             // Arrange
             CreateCustomerCommand createCustomerCommand = new();
 
-            _mediator.Send(new IsSameCustomerExistQuery()).ReturnsForAnyArgs(false);
-            _mediator.Send(new IsEmailExistQuery()).ReturnsForAnyArgs(true);
+            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
+            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(1);
             _mediator.Send(createCustomerCommand).ReturnsForAnyArgs(_customer);
 
             // Act
@@ -165,8 +165,8 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         public async Task UpdateCustomer_WhenCustomerIsValid_ReturnsCustomerId()
         {
             // Arrange
-            _mediator.Send(new IsSameCustomerExistQuery()).ReturnsForAnyArgs(false);
-            _mediator.Send(new IsEmailExistQuery()).ReturnsForAnyArgs(false);
+            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
+            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(0);
             _mediator.Send(new UpdateCustomerCommand()).ReturnsForAnyArgs(1);
 
             // Act
@@ -229,7 +229,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         {
             // Arrange
             UpdateCustomerCommand updateCustomerCommand = new();
-            _mediator.Send(new IsSameCustomerExistQuery()).ReturnsForAnyArgs(true);
+            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(10);
             _mediator.Send(updateCustomerCommand).ReturnsForAnyArgs(1);
 
             // Act
@@ -244,8 +244,8 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         {
             // Arrange
             UpdateCustomerCommand updateCustomerCommand = new();
-            _mediator.Send(new IsSameCustomerExistQuery()).ReturnsForAnyArgs(false);
-            _mediator.Send(new IsEmailExistQuery()).ReturnsForAnyArgs(true);
+            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
+            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(10);
             _mediator.Send(updateCustomerCommand).ReturnsForAnyArgs(1);
 
             // Act
