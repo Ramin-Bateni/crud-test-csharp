@@ -1,10 +1,12 @@
 # CRUD Code Test 
 
 # Swagger
-![image](https://user-images.githubusercontent.com/9051320/209865646-0b077402-f5a7-4365-836a-cd5b4be337d4.png)
+![image](https://user-images.githubusercontent.com/9051320/210185694-f6f53024-c980-42d0-99a4-ae887ff32400.png)
 ------------------------
-# Code coverage
-![image](https://user-images.githubusercontent.com/9051320/209881658-42eb8d19-2b89-49ba-b280-0d717086b157.png)
+# Code Coverage & Tests (Unit & Integration Tests)
+![image](https://user-images.githubusercontent.com/9051320/210185513-b6775e01-3a4f-4eaa-afdd-c31fd4f4ac2a.png)
+![image](https://user-images.githubusercontent.com/9051320/210185473-6feb435e-807b-40bd-8424-c03945b5bfe3.png)
+
 ------------------------
 # DB
 For migration:
@@ -15,7 +17,7 @@ dotnet ef database update --startup-project ../Mc2.CrudTest.Presentation/Server
 ![image](https://user-images.githubusercontent.com/9051320/209954700-e2935a24-2280-4401-ac20-d0c73616b97d.png)
 ------------------------
 # Solution
-![image](https://user-images.githubusercontent.com/9051320/209881624-a1aaa12c-e3c4-48a5-9582-e156fc006808.png)
+![image](https://user-images.githubusercontent.com/9051320/210185636-1c85b5a6-7a74-4933-813f-a21095666e65.png)
 
 
 
