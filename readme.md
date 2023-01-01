@@ -17,7 +17,7 @@ dotnet ef database update --startup-project ../Mc2.CrudTest.Presentation/Server
 ![image](https://user-images.githubusercontent.com/9051320/209954700-e2935a24-2280-4401-ac20-d0c73616b97d.png)
 ------------------------
 # Solution
-![image](https://user-images.githubusercontent.com/9051320/209881624-a1aaa12c-e3c4-48a5-9582-e156fc006808.png)
+![image](https://user-images.githubusercontent.com/9051320/210185636-1c85b5a6-7a74-4933-813f-a21095666e65.png)
 
 
 
