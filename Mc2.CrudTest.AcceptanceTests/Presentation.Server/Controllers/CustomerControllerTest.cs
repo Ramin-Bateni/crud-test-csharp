@@ -165,7 +165,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenCustomerIsValid_ReturnsCustomerId()
+        public async Task UpdateCustomer_WhenCustomerIsValid_ReturnsOkObjectResult()
         {
             // Arrange
             _mediator.Send(Arg.Any<GetCustomerIdByInfoQuery>()).Returns(0);
@@ -180,7 +180,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenPhoneNumberIsInvalid_ReturnsCustomerId()
+        public async Task UpdateCustomer_WhenPhoneNumberIsInvalid_ReturnsBadRequestObjectResult()
         {
             // Arrange
             UpdateCustomerCommand updateCustomerCommand = new();
@@ -196,7 +196,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenEmailIsInvalid_ReturnsCustomerId()
+        public async Task UpdateCustomer_WhenEmailIsInvalid_ReturnsBadRequestObjectResult()
         {
             // Arrange
             UpdateCustomerCommand updateCustomerCommand = new();
@@ -212,7 +212,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenBankAccountIsInvalid_ReturnsCustomerId()
+        public async Task UpdateCustomer_WhenBankAccountIsInvalid_ReturnsBadRequestObjectResult()
         {
             // Arrange
             UpdateCustomerCommand updateCustomerCommand = new();
@@ -228,7 +228,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenSameCustomerIsExist_ReturnsCustomerId()
+        public async Task UpdateCustomer_WhenSameCustomerIsExist_ReturnsBadRequestObjectResult()
         {
             // Arrange
             _mediator.Send(Arg.Any<GetCustomerIdByInfoQuery>()).Returns(_secondCustomerId);
