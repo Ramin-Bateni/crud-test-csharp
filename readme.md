@@ -1,7 +1,7 @@
 # CRUD Code Test 
 
 # Swagger
-![image](https://user-images.githubusercontent.com/9051320/209865646-0b077402-f5a7-4365-836a-cd5b4be337d4.png)
+![image](https://user-images.githubusercontent.com/9051320/210185694-f6f53024-c980-42d0-99a4-ae887ff32400.png)
 ------------------------
 # Code Coverage & Tests (Unit & Integration Tests)
 ![image](https://user-images.githubusercontent.com/9051320/210185513-b6775e01-3a4f-4eaa-afdd-c31fd4f4ac2a.png)
