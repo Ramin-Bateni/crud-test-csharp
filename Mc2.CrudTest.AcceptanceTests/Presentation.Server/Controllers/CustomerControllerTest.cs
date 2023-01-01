@@ -21,15 +21,19 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         private readonly CustomerController _controller;
         private readonly IMediator _mediator;
         private readonly Customer _customer;
+        private readonly int _secondCustomerId;
 
         public CustomerControllerTest()
         {
             // A valid customer
-            _customer = new()
+            const int firstCustomerId = 1;
+            _secondCustomerId = 2;
+
+            _customer = new Customer
             {
-                Id = 1,
+                Id = firstCustomerId,
                 FirstName = "Ramin",
-                Lastname = "Bateni",
+                LastName = "Bateni",
                 PhoneNumber = "2024561111",
                 Email = "a@a.com",
                 BankAccountNumber = "0123456789",
@@ -55,8 +59,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         public async Task GetById_WhenCall_ReturnsCustomer()
         {
             // Assign
-            GetCustomerByIdQuery getCustomerByIdQuery = new();
-            _mediator.Send(getCustomerByIdQuery).ReturnsForAnyArgs(_customer);
+            _mediator.Send(Arg.Any<GetCustomerByIdQuery>()).Returns(_customer);
 
             // Act
             Customer result = await _controller.GetById(1);
@@ -69,12 +72,12 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         public async Task CreateCustomer_WhenCustomerIsValid_ReturnsOkObjectResult()
         {
             // Arrange
-            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
-            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(0);
-            _mediator.Send(new CreateCustomerCommand()).ReturnsForAnyArgs(_customer);
+            _mediator.Send(Arg.Any<GetCustomerIdByInfoQuery>()).Returns(0);
+            _mediator.Send(Arg.Any<GetCustomerIdByEmailQuery>()).Returns(0);
+            _mediator.Send(new CreateCustomerCommand()).Returns(_customer);
 
             // Act
-            ActionResult result = await _controller.CreateCustomer(_customer);
+            ActionResult result = await _controller.Create(_customer);
 
             // Assert
             result.Should().BeOfType<OkObjectResult>();
@@ -87,10 +90,10 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             CreateCustomerCommand createCustomerCommand = new();
             _customer.PhoneNumber = "1"; // Invalid phone number
 
-            _mediator.Send(createCustomerCommand).ReturnsForAnyArgs(_customer);
+            _mediator.Send(createCustomerCommand).Returns(_customer);
 
             // Act
-            ActionResult result = await _controller.CreateCustomer(_customer);
+            ActionResult result = await _controller.Create(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -103,10 +106,10 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             CreateCustomerCommand createCustomerCommand = new();
             _customer.Email = "myname"; // Invalid email
 
-            _mediator.Send(createCustomerCommand).ReturnsForAnyArgs(_customer);
+            _mediator.Send(createCustomerCommand).Returns(_customer);
 
             // Act
-            ActionResult result = await _controller.CreateCustomer(_customer);
+            ActionResult result = await _controller.Create(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -119,10 +122,10 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             CreateCustomerCommand createCustomerCommand = new();
             _customer.BankAccountNumber = "1"; // Invalid bank account
 
-            _mediator.Send(createCustomerCommand).ReturnsForAnyArgs(_customer);
+            _mediator.Send(createCustomerCommand).Returns(_customer);
 
             // Act
-            ActionResult result = await _controller.CreateCustomer(_customer);
+            ActionResult result = await _controller.Create(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -134,11 +137,11 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             // Arrange
             CreateCustomerCommand createCustomerCommand = new();
 
-            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(10);
-            _mediator.Send(createCustomerCommand).ReturnsForAnyArgs(_customer);
+            _mediator.Send(Arg.Any<GetCustomerIdByInfoQuery>()).ReturnsForAnyArgs(_secondCustomerId);
+            _mediator.Send(createCustomerCommand).Returns(_customer);
 
             // Act
-            ActionResult result = await _controller.CreateCustomer(_customer);
+            ActionResult result = await _controller.Create(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -150,12 +153,12 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             // Arrange
             CreateCustomerCommand createCustomerCommand = new();
 
-            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
-            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(1);
-            _mediator.Send(createCustomerCommand).ReturnsForAnyArgs(_customer);
+            _mediator.Send<int>(Arg.Any<GetCustomerIdByInfoQuery>()).Returns(0);
+            _mediator.Send(Arg.Any<GetCustomerIdByEmailQuery>()).Returns(_secondCustomerId);
+            _mediator.Send(createCustomerCommand).Returns(_customer);
 
             // Act
-            ActionResult result = await _controller.CreateCustomer(_customer);
+            ActionResult result = await _controller.Create(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -165,12 +168,12 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
         public async Task UpdateCustomer_WhenCustomerIsValid_ReturnsCustomerId()
         {
             // Arrange
-            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
-            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(0);
-            _mediator.Send(new UpdateCustomerCommand()).ReturnsForAnyArgs(1);
+            _mediator.Send(Arg.Any<GetCustomerIdByInfoQuery>()).Returns(0);
+            _mediator.Send(Arg.Any<GetCustomerIdByEmailQuery>()).Returns(0);
+            _mediator.Send(Arg.Any<UpdateCustomerCommand>()).Returns(1);
 
             // Act
-            ActionResult result = await _controller.UpdateCustomer(_customer);
+            ActionResult result = await _controller.Update(_customer);
 
             // Assert
             result.Should().BeOfType<OkObjectResult>();
@@ -183,10 +186,10 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             UpdateCustomerCommand updateCustomerCommand = new();
             _customer.PhoneNumber = "1"; // Invalid phone number
 
-            _mediator.Send(updateCustomerCommand).ReturnsForAnyArgs(1);
+            _mediator.Send(updateCustomerCommand).Returns(1);
 
             // Act
-            ActionResult result = await _controller.UpdateCustomer(_customer);
+            ActionResult result = await _controller.Update(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -202,7 +205,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             _mediator.Send(updateCustomerCommand).ReturnsForAnyArgs(1);
 
             // Act
-            ActionResult result = await _controller.UpdateCustomer(_customer);
+            ActionResult result = await _controller.Update(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -218,57 +221,69 @@ namespace Mc2.CrudTest.AcceptanceTests.Presentation.Server.Controllers
             _mediator.Send(updateCustomerCommand).ReturnsForAnyArgs(1);
 
             // Act
-            ActionResult result = await _controller.UpdateCustomer(_customer);
+            ActionResult result = await _controller.Update(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenSameCustomerIsExistIsInvalid_ReturnsCustomerId()
+        public async Task UpdateCustomer_WhenSameCustomerIsExist_ReturnsCustomerId()
+        {
+            // Arrange
+            _mediator.Send(Arg.Any<GetCustomerIdByInfoQuery>()).Returns(_secondCustomerId);
+            _mediator.Send(Arg.Any<GetCustomerIdByEmailQuery>()).Returns(0);
+            _mediator.Send(Arg.Any<UpdateCustomerCommand>()).Returns(1);
+
+            // Act
+            ActionResult result = await _controller.Update(_customer);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+        }
+
+        [Fact]
+        public async Task UpdateCustomer_WhenSameEmailIsExist_ReturnsBadRequestObjectResult()
         {
             // Arrange
             UpdateCustomerCommand updateCustomerCommand = new();
-            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(10);
-            _mediator.Send(updateCustomerCommand).ReturnsForAnyArgs(1);
+            _mediator.Send(Arg.Any<GetCustomerIdByInfoQuery>()).Returns(0);
+            _mediator.Send(Arg.Any<GetCustomerIdByEmailQuery>()).Returns(_secondCustomerId);
+            _mediator.Send(updateCustomerCommand).Returns(1);
 
             // Act
-            ActionResult result = await _controller.UpdateCustomer(_customer);
+            ActionResult result = await _controller.Update(_customer);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenSameEmailIsExistIsInvalid_ReturnsCustomerId()
+        public async Task DeleteCustomer_ItemFound_Returns1()
         {
             // Arrange
-            UpdateCustomerCommand updateCustomerCommand = new();
-            _mediator.Send(new GetCustomerIdByInfoQuery()).ReturnsForAnyArgs(0);
-            _mediator.Send(new GetCustomerIdByEmailQuery()).ReturnsForAnyArgs(10);
-            _mediator.Send(updateCustomerCommand).ReturnsForAnyArgs(1);
+            _mediator.Send(Arg.Any<DeleteCustomerCommand>()).Returns(1);
 
             // Act
-            ActionResult result = await _controller.UpdateCustomer(_customer);
+            int result = await _controller.Delete(1);
 
             // Assert
-            result.Should().BeOfType<BadRequestObjectResult>();
+            result.Should().Be(1);
         }
 
         [Fact]
-        public async Task DeleteCustomer_WhenCall_ReturnsCustomerId()
+        public async Task DeleteCustomer_ItemNotFound_Returns0()
         {
             // Arrange
-            const int id = 1;
             DeleteCustomerCommand deleteCustomerCommand = new();
 
-            _mediator.Send(deleteCustomerCommand).ReturnsForAnyArgs(id);
+            _mediator.Send(deleteCustomerCommand).Returns(0);
 
             // Act
-            int result = await _controller.DeleteCustomer(id);
+            int result = await _controller.Delete(100);
 
             // Assert
-            result.Should().Be(id);
+            result.Should().Be(0);
         }
     }
 }

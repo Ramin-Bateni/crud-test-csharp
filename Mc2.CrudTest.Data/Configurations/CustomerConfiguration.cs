@@ -22,7 +22,7 @@ namespace Mc2.CrudTest.Data.Configurations
                 .IsUnicode()
                 .HasMaxLength(30);
             
-            builder.Property(x => x.Lastname)
+            builder.Property(x => x.LastName)
                 .IsUnicode(false)
                 .HasMaxLength(30);
 

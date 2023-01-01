@@ -33,7 +33,7 @@ namespace Mc2.CrudTest.Domain.Customers.Commands
                 Customer customer = new ApplicationServices.Models.Customer()
                 {
                     FirstName = command.FirstName,
-                    Lastname = command.Lastname,
+                    LastName = command.Lastname,
                     Email = command.Email,
                     DateOfBirth = command.DateOfBirth,
                     PhoneNumber = command.PhoneNumber,

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.8.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="MockQueryable.NSubstitute" Version="5.0.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
@@ -31,12 +32,6 @@
     <ProjectReference Include="..\Mc2.CrudTest.ApplicationServices\Mc2.CrudTest.ApplicationServices.csproj" />
     <ProjectReference Include="..\Mc2.CrudTest.Data\Mc2.CrudTest.Data.csproj" />
     <ProjectReference Include="..\Mc2.CrudTest.Presentation\Server\Mc2.CrudTest.Presentation.Server.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="FluentAssertions">
-      <HintPath>lib\FluentAssertions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

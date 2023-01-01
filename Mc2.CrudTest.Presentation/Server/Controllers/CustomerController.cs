@@ -32,68 +32,15 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
         }
 
         [HttpGet]
-        [Route(nameof(GetById))]
+        [Route(nameof(GetById)+"/{id}")]
         public async Task<Customer> GetById(int id)
         {
             return await _mediator.Send(new GetCustomerByIdQuery() { Id = id });
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCustomer(Customer customer)
-        {
-            if (!Validator.PhoneIsValid(customer.PhoneNumber))
-            {
-                return BadRequest("PhoneNumber is invalid!");
-            }
-
-            if (!Validator.EmailIsValid(customer.Email))
-            {
-                return BadRequest("Email is invalid!");
-            }
-
-            if (!Validator.BankAccountIsValid(customer.BankAccountNumber))
-            {
-                return BadRequest("Bank account is invalid!");
-            }
-
-            // Check same user is exist or not
-            int customerId = await _mediator.Send(new GetCustomerIdByInfoQuery()
-            {
-                FirstName = customer.FirstName,
-                LastName = customer.Lastname,
-                DateOfBirth = customer.DateOfBirth
-            });
-            if (customerId!=0)
-            {
-                return BadRequest("Same customer is exist!");
-            }
-            //--------------------------------
-
-            // Check is email exist or not
-            customerId = await _mediator.Send(new GetCustomerIdByEmailQuery()
-            {
-                Email = customer.Email
-            });
-            if (customerId != 0)
-            {
-                return BadRequest("Same email is exist!");
-            }
-            //--------------------------------
-
-            customer = await _mediator.Send(new CreateCustomerCommand()
-            {
-                FirstName = customer.FirstName,
-                Lastname = customer.Lastname,
-                Email = customer.Email,
-                DateOfBirth = customer.DateOfBirth,
-                PhoneNumber = customer.PhoneNumber,
-                BankAccountNumber = customer.BankAccountNumber
-            });
-            return Ok(customer);
-        }
-
-        [HttpPut]
-        public async Task<ActionResult> UpdateCustomer(Customer customer)
+        [Route(nameof(Create))]
+        public async Task<ActionResult> Create(Customer customer)
         {
             if (!Validator.PhoneIsValid(customer.PhoneNumber))
             {
@@ -114,7 +61,64 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
             int customerId = await _mediator.Send(new GetCustomerIdByInfoQuery()
             {
                 FirstName = customer.FirstName,
-                LastName = customer.Lastname,
+                LastName = customer.LastName,
+                DateOfBirth = customer.DateOfBirth
+            });
+            // If there is another person with same info
+            if (customerId != 0 && customerId != customer.Id)
+            {
+                return BadRequest("Same customer is exist!");
+            }
+            //--------------------------------
+
+            //------ Check is email exist or not
+            customerId = await _mediator.Send(new GetCustomerIdByEmailQuery()
+            {
+                Email = customer.Email
+            });
+            // If there is another person with same email
+            if (customerId != 0 && customerId != customer.Id)
+            {
+                return BadRequest("Same email is exist!");
+            }
+            //--------------------------------
+
+            customer = await _mediator.Send(new CreateCustomerCommand()
+            {
+                FirstName = customer.FirstName,
+                Lastname = customer.LastName,
+                Email = customer.Email,
+                DateOfBirth = customer.DateOfBirth,
+                PhoneNumber = customer.PhoneNumber,
+                BankAccountNumber = customer.BankAccountNumber
+            });
+            return Ok(customer);
+        }
+
+        [HttpPut]
+        [Route(nameof(Update))]
+        public async Task<ActionResult> Update(Customer customer)
+        {
+            if (!Validator.PhoneIsValid(customer.PhoneNumber))
+            {
+                return BadRequest("PhoneNumber is invalid!");
+            }
+
+            if (!Validator.EmailIsValid(customer.Email))
+            {
+                return BadRequest("Email is invalid!");
+            }
+
+            if (!Validator.BankAccountIsValid(customer.BankAccountNumber))
+            {
+                return BadRequest("Bank account is invalid!");
+            }
+
+            //------ Check same user is exist or not
+            int customerId = await _mediator.Send(new GetCustomerIdByInfoQuery()
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
                 DateOfBirth = customer.DateOfBirth
             });
             // If there is another person with same info
@@ -140,7 +144,7 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
             {
                 Id = customer.Id,
                 FirstName = customer.FirstName,
-                Lastname = customer.Lastname,
+                LastName = customer.LastName,
                 Email = customer.Email,
                 DateOfBirth = customer.DateOfBirth,
                 PhoneNumber = customer.PhoneNumber,
@@ -150,13 +154,14 @@ namespace Mc2.CrudTest.Presentation.Server.Controllers
         }
 
         [HttpDelete]
-        public async Task<int> DeleteCustomer(int customerId)
+        [Route(nameof(Delete)+"/{id}")]
+        public async Task<int> Delete(int id)
         {
-            int id = await _mediator.Send(new DeleteCustomerCommand()
+            int resultId = await _mediator.Send(new DeleteCustomerCommand()
             {
-                Id = customerId
+                Id = id
             });
-            return id;
+            return resultId;
         }
     }
 }

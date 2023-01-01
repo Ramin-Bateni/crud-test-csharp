@@ -29,6 +29,8 @@ namespace Mc2.CrudTest.Presentation.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")
@@ -79,6 +81,7 @@ namespace Mc2.CrudTest.Presentation.Server
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/Healthcheck");
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");

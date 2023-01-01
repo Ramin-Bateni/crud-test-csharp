@@ -32,7 +32,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
                 {
                     Id = 1,
                     FirstName = "Ramin",
-                    Lastname = "Bateni",
+                    LastName = "Bateni",
                     Email = "a@a.com",
                     DateOfBirth = DateTime.Now,
                     PhoneNumber = "09130000000",
@@ -74,7 +74,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
             {
                 Id = 0,
                 FirstName = "Ramin",
-                Lastname = "Bateni",
+                LastName = "Bateni",
                 DateOfBirth = dateOfBirth,
                 Email = "a@a.com",
                 PhoneNumber = "+989130000000",
@@ -97,7 +97,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Data.Repository
             {
                 Id = 1,
                 FirstName = "Ramin",
-                Lastname = "Bateni",
+                LastName = "Bateni",
                 DateOfBirth = dateOfBirth,
                 Email = "a@a.com",
                 PhoneNumber = "+989130000000",

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Mc2.CrudTest.ApplicationServices.IRepositories;
 using Mc2.CrudTest.ApplicationServices.Models;
@@ -59,7 +57,7 @@ namespace Mc2.CrudTest.Data.Repositories
         {
             Customer customer = await _context.Customer.FirstOrDefaultAsync(x =>
                 x.FirstName.ToLower() == firstName.ToLower() &&
-                x.Lastname.ToLower() == lastName.ToLower() &&
+                x.LastName.ToLower() == lastName.ToLower() &&
                 x.DateOfBirth == dateOfBirth);
             return customer?.Id ?? 0;
         }
